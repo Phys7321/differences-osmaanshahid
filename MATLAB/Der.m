@@ -1,4 +1,24 @@
-function [dy,xc] = Der(F,x,varargin)
+function [dy,xc] = Der(varargin)
+switch nargin
+    case 2
+        F = varargin{1};
+        x = varargin{2};
+        method = 'cd' ; %default value
+        n = 5 ; %default value
+    case 3
+        F = varargin{1};
+        x = 1;
+        method = varargin{3};
+        n = 5 ; %default value
+    case 4
+        F = varargin{1};
+        x = varargin{2};
+        method = varargin{3};
+        n = varargin{4};
+end
+
+% In the form Der(func(x),x,method,n)
+% F = function, x = input vector
 % D calculates the derivative of the function F(x) using one of three
 % methods: forward difference, central difference, and expolated difference
 % D(F,x,method) returns the x and y coordinate of the derivative function.
@@ -6,27 +26,25 @@ function [dy,xc] = Der(F,x,varargin)
 % 'ed'. If F is a numeric vector, it is treated as data and a simple
 % derivative is calculated
 
-if isempty(varargin)
-   % Default method
-    varargin{1} = 'cd'; 
-end
 if ~isnumeric(x)
     error('Second input must be numeric vector')
 end
-if ~isa(F,'function_handle')
-    if isnumeric(F)
+
+if ~isa(F,'function_handle') % If F is NOT a fxn handle, continue
+    if isnumeric(F)          % If F is a numeric vector, continue
       xc = chop(x); % method for data depends on how you assign dy to xc
       dy = diff(F)./diff(x); 
-      varargin{1} = 'data';
+      method = 'data';
+      
     else
       error('First input must be a function handle or a numeric array')
     end
 end
 
 n=length(x);
-dx = diff(x);
-
-switch varargin{1}
+dx = diff(x); % length(dx) = length(x) - 1
+method
+switch method
     case 'fd' 
         dy = (F(x(2:n)) - F(x(1:n-1)))./dx;
         xc = x(1:n-1);
@@ -35,7 +53,7 @@ switch varargin{1}
         xc = x(2:n);
     case 'cd'
         dy = (F(x(1:n-1)+0.5*dx) - F(x(1:n-1)-0.5*dx))./dx;
-        xc = chop(x);
+        xc = x(1:n-1);
     case 'ed'
         half = (F(x(1:n-1)+0.25*dx) - F(x(1:n-1)-0.25*dx))./(0.5*dx); 
         full = (F(x(1:n-1)+0.5*dx) - F(x(1:n-1)-0.5*dx))./dx;
@@ -46,4 +64,13 @@ switch varargin{1}
     otherwise
         error('method not recognized');
 end
+
+figure(1);
+plot(x,F(x));
+grid;
+
+figure(2);
+plot(xc,dy);
+grid;
+
 end
