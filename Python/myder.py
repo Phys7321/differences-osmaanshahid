@@ -87,7 +87,8 @@ def secondiff(f,a,b,N):                           # Find f''(x)
 
 
 
-
+def f(x):
+    return (np.sin(1/(x*(2-x)) ))**2
                                                   # For good results, use a = -2, b = 4, N = 5000
 def hw1_part2(f,a,b,N):
     x = np.linspace(a,b,num=N)                    # Define x-axis
