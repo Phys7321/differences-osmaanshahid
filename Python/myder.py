@@ -8,6 +8,7 @@ edited by: Osmaan S
 
 import numpy as np
 import matplotlib.pyplot as plt
+import math
 
 # Define the function f(x)
 def f(x):
@@ -16,6 +17,9 @@ def f(x):
 # Define forward difference method for derivative, f'(x)
 # over the interval [a,b] for N points
 # h is spacing between each point
+
+
+
 
 def forwardiff(f,a,b,N):
     h = (b-a)/N
@@ -29,6 +33,9 @@ def forwardiff(f,a,b,N):
     plt.plot(xaxis.tolist(),forward_prime) # Plot on xy-axes
     plt.show()
     
+
+
+
 def backwardiff(f,a,b,N):
     h = (b-a)/N
     backward_prime=[]                       # Empty list, will become f'(x)
@@ -40,6 +47,9 @@ def backwardiff(f,a,b,N):
     # print(xaxis.tolist())
     plt.plot(xaxis.tolist(),backward_prime) # Plot on xy-axes
     plt.show()
+
+
+
 
 def centraldiff(f,a,b,N):
     h = (b-a)/N
@@ -53,6 +63,9 @@ def centraldiff(f,a,b,N):
     plt.plot(xaxis.tolist(),central_prime)        # Plot on xy-axes
     plt.show()
 
+
+
+
 def secondiff(f,a,b,N):
     h = (b-a)/N
     second_prime=[]                               # Empty list, will become f''(x)
@@ -63,4 +76,44 @@ def secondiff(f,a,b,N):
     print(second_prime)
     # print(xaxis.tolist()
     plt.plot(xaxis.tolist(),second_prime)         # Plot on xy-axes
+    plt.show()
+
+
+
+
+def f(x):
+    return (np.sin(1/(x*(2-x)) ))**2
+
+
+                                                  # For good results, use a = -2, b = 4, N = 5000
+def hw1_part2(f,a,b,N):
+    x = np.linspace(a,b,num=N)                    # Define x-axis
+    y = (np.sin(1/(x*(2-x)) ))**2                 # Define y-axis, f(x)
+    plt.plot(x.tolist(),y.tolist(),'b')           # Plot on xy-axes
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title('f(x)')
+                                                  # Take derivative using centraldiff function
+                                                  # Copied and pasted centraldiff function below
+    h = (b-a)/N
+    y_prime=[]                                    # Empty list, will become f'(x)
+    for k in range(0,N):
+        slop = (f(a+(k+1/2)*h)-f(a+(k-1/2)*h))/h  # Calculate derivative at each point
+        y_prime.append(slop)                      # At each point, add f'(x) to list
+    plt.figure(2)
+    plt.plot(x.tolist(),y_prime,'r')              # Plot on xy-axes
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title("f'(x)")
+                                                  # Take second derivative using secondiff function
+                                                  # Copied and pasted seconddiff function below
+    second_prime=[]                               # Empty list, will become f''(x) 
+    for k in range(0,N):
+        slop = (f(a+(k+1)*h) + f(a+(k-1)*h) - 2*f(a+k*h) )/(h**2)   # Calculate derivative at each point
+        second_prime.append(slop)                 # At each point, add f''(x) to list
+    plt.figure(3)
+    plt.plot(x.tolist(),second_prime,'g')        # Plot on xy-axes
+    plt.xlabel('x')
+    plt.ylabel('y')
+    plt.title("f''(x)")
     plt.show()
