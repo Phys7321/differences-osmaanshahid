@@ -21,52 +21,59 @@ def f(x):
 
 
 
-def forwardiff(f,a,b,N):
+def forwardiff(f,a,b,N):                   # Find f'(x), using forward method
     h = (b-a)/N
     forward_prime=[]                       # Empty list, will become f'(x)
     xaxis = np.linspace(a,b,num=(N-1))     # x-axis
     for k in range(1,N):
         slop = (f(a+k*h)-f(a+(k-1)*h))/h   # Calculate derivative at each point
         forward_prime.append(slop)         # At each point, add f'(x) to list
-    # print(forward_prime)
-    # print(xaxis.tolist())
     plt.plot(xaxis.tolist(),forward_prime) # Plot on xy-axes
     plt.show()
     
 
 
 
-def backwardiff(f,a,b,N):
+def backwardiff(f,a,b,N):                   # Find f'(x), using backward method
     h = (b-a)/N
     backward_prime=[]                       # Empty list, will become f'(x)
     xaxis = np.linspace(a,b,num=(N-1))      # x-axis
     for k in range(0,N-1):
         slop = (f(a+(k+1)*h)-f(a+k*h))/h    # Calculate derivative at each point
         backward_prime.append(slop)         # At each point, add f'(x) to list
-    # print(backward_prime)
-    # print(xaxis.tolist())
     plt.plot(xaxis.tolist(),backward_prime) # Plot on xy-axes
     plt.show()
 
 
 
 
-def centraldiff(f,a,b,N):
+def centraldiff(f,a,b,N):                         # Find f'(x), using central method
     h = (b-a)/N
     central_prime=[]                              # Empty list, will become f'(x)
     xaxis = np.linspace(a,b,num=N)                # x-axis
     for k in range(0,N):
         slop = (f(a+(k+1/2)*h)-f(a+(k-1/2)*h))/h  # Calculate derivative at each point
         central_prime.append(slop)                # At each point, add f'(x) to list
-    # print(central_prime)
-    # print(xaxis.tolist())
     plt.plot(xaxis.tolist(),central_prime)        # Plot on xy-axes
     plt.show()
 
 
 
 
-def secondiff(f,a,b,N):
+def higherorderdiff(f,a,b,N):                     # Find f'(x), using cubic approximation with central method
+    h = (b-a)/N
+    higher_prime=[]                              # Empty list, will become f'(x)
+    xaxis = np.linspace(a,b,num=N)                # x-axis
+    for k in range(0,N):
+        slop = ( (1/24)*f(a+(k-3/2)*h) - (27/24)*f(a+(k-1/2)*h) + (27/24)*f(a+(k+1/2)*h) - (1/24)*f(a+(k+3/2)*h) )/h  # Calculate derivative at each point
+        higher_prime.append(slop)                # At each point, add f'(x) to list
+    plt.plot(xaxis.tolist(),higher_prime)        # Plot on xy-axes
+    plt.show()
+
+
+
+
+def secondiff(f,a,b,N):                           # Find f''(x)
     h = (b-a)/N
     second_prime=[]                               # Empty list, will become f''(x)
     xaxis = np.linspace(a,b,num=N)                # x-axis 
@@ -81,14 +88,10 @@ def secondiff(f,a,b,N):
 
 
 
-def f(x):
-    return (np.sin(1/(x*(2-x)) ))**2
-
-
                                                   # For good results, use a = -2, b = 4, N = 5000
 def hw1_part2(f,a,b,N):
     x = np.linspace(a,b,num=N)                    # Define x-axis
-    y = (np.sin(1/(x*(2-x)) ))**2                 # Define y-axis, f(x)
+    y = (np.sin(1/(x*(2-x)) ))**2                 # Define y-axis, f(x) = sin^2(1/(x*(2-x)))
     plt.plot(x.tolist(),y.tolist(),'b')           # Plot on xy-axes
     plt.xlabel('x')
     plt.ylabel('y')
