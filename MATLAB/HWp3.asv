@@ -16,13 +16,12 @@ switch nargin
         method = varargin{3};
         n = varargin{4};
 end
-
+plot(
 load('derdata.mat')
-
 [dy,xc] = Der(@func,X);
-figure(3);
-plot(X,Y);
-grid;
+
+[dy,xc] = Der(@func
+
 
 
 end

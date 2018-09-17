@@ -1,4 +1,7 @@
 function [dy,xc] = Der(varargin)
+%Needs the file func.m, which defines the function being used
+%Use the input Der(@func,X,...)
+
 switch nargin
     case 2
         F = varargin{1};
@@ -58,6 +61,9 @@ switch method
         half = (F(x(1:n-1)+0.25*dx) - F(x(1:n-1)-0.25*dx))./(0.5*dx); 
         full = (F(x(1:n-1)+0.5*dx) - F(x(1:n-1)-0.5*dx))./dx;
         dy = (4/3).*half - (1/3).*full;
+        xc = x(1:n-1);
+    case 'higherorder'
+        dy = ((1/24)*F(x(1:n-1)-1.5*dx) - (27/24)*F(x(1:n-1)-0.5*dx) + (27/24)*F(x(1:n-1)+0.5*dx) - (1/24)*F(x(1:n-1)+1.5*dx) )./dx;
         xc = x(1:n-1);
     case 'data'
         return;
