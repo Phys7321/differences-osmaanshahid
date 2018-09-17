@@ -7,7 +7,7 @@ switch nargin
         n = 5 ; %default value
     case 3
         F = varargin{1};
-        x = 1;
+        x = varargin{2};
         method = varargin{3};
         n = 5 ; %default value
     case 4
@@ -43,7 +43,7 @@ end
 
 n=length(x);
 dx = diff(x); % length(dx) = length(x) - 1
-method
+
 switch method
     case 'fd' 
         dy = (F(x(2:n)) - F(x(1:n-1)))./dx;
@@ -58,7 +58,7 @@ switch method
         half = (F(x(1:n-1)+0.25*dx) - F(x(1:n-1)-0.25*dx))./(0.5*dx); 
         full = (F(x(1:n-1)+0.5*dx) - F(x(1:n-1)-0.5*dx))./dx;
         dy = (4/3).*half - (1/3).*full;
-        xc = chop(x);
+        xc = x(1:n-1);
     case 'data'
         return;
     otherwise
