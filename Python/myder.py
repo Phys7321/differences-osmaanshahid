@@ -73,6 +73,7 @@ def higherorderdiff(f,a,b,N):                     # Find f'(x), using cubic appr
 
 
 
+
 def secondiff(f,a,b,N):                           # Find f''(x)
     h = (b-a)/N
     second_prime=[]                               # Empty list, will become f''(x)
